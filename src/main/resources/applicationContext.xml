@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Configuration File -->
+    <context:property-placeholder location="classpath:partitionmanager.properties"/>
+
+    <bean id="context" class="com.ainory.dev.partition.share.Context">
+        <property name="executionPeriodHour" value="${partition.execution.period.hour}"/>
+        <property name="executionPeriodMinute" value="${partition.execution.period.minute}"/>
+        <property name="executionPeriodSecond" value="${partition.execution.period.second}"/>
+        <property name="databaseList" value="${database.list}"/>
+
+        <property name="commonDatabaseDriver" value="${common.database.driver}"/>
+        <property name="commonDatabaseUrl" value="${common.database.url}"/>
+        <property name="commonDatabaseHost" value="${common.database.host}"/>
+        <property name="commonDatabasePort" value="${common.database.port}"/>
+        <property name="commonDatabaseUser" value="${common.database.user}"/>
+        <property name="commonDatabasePass" value="${common.database.pass}"/>
+        <property name="partitionDayAddRange" value="${partition.day.add.range}"/>
+        <property name="partitionHourAddRange" value="${partition.hour.add.range}"/>
+    </bean>
+
+    <bean id="partitionManagerWorker" class="com.ainory.dev.partition.worker.PartitionManagerWorker">
+        <property name="context" ref="context"/>
+    </bean>
+
+    <bean id="queryLoaderUtil" class="com.ainory.dev.partition.util.QueryLoaderUtil">
+        <constructor-arg value="${query.file.path}"/>
+    </bean>
+
+</beans>

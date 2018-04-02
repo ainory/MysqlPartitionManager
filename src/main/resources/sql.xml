@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<queries>
+    <query id="select_partition_tables">
+        SELECT TABLE_NAME,
+               DATA_TERM,
+               PARTITION_UNIT,
+               PARTITION_NAME
+        FROM $dbName.CM_PARTITION
+    </query>
+
+    <query id="select_table_partition_info">
+        SELECT MAX(PARTITION_NAME) AS max_partition,
+               MIN(PARTITION_NAME) AS min_partition
+        FROM information_schema.partitions
+        WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?
+    </query>
+
+
+</queries>
